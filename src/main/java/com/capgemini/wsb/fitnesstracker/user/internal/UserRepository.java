@@ -4,21 +4,28 @@ import com.capgemini.wsb.fitnesstracker.user.api.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface for {@link User} entities, extending {@link JpaRepository}.
+ */
+@Repository
 interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Query searching users by email address. It matches by exact match.
+     * Searches for a user by exact email match.
      *
-     * @param email email of the user to search
-     * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
+     * @param email Email address of the user.
+     * @return Optional containing found user or empty if not found.
      */
-    default Optional<User> findByEmail(String email) {
-        return findAll().stream()
-                        .filter(user -> Objects.equals(user.getEmail(), email))
-                        .findFirst();
-    }
+    Optional<User> findByEmail(String email);
 
+    /**
+     * Searches for users whose email contains the specified substring, ignoring case.
+     *
+     * @param email Email substring to search for.
+     * @return List of users matching the criteria.
+     */
+    List<User> findByEmailContainingIgnoreCase(String email);
 }

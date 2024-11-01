@@ -9,6 +9,9 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 
+/**
+ * Entity representing a user in the fitness tracking application.
+ */
 @Entity
 @Table(name = "users")
 @Getter
@@ -33,17 +36,22 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    public User(
-            final String firstName,
-            final String lastName,
-            final LocalDate birthdate,
-            final String email) {
-
+    public User(String firstName, String lastName, LocalDate birthdate, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
         this.email = email;
     }
 
+    /**
+     * Updates user information from another {@link User} instance.
+     *
+     * @param userDetails User details to update.
+     */
+    public void updateFrom(User userDetails) {
+        this.firstName = userDetails.getFirstName();
+        this.lastName = userDetails.getLastName();
+        this.birthdate = userDetails.getBirthdate();
+        this.email = userDetails.getEmail();
+    }
 }
-

@@ -3,26 +3,26 @@ package com.capgemini.wsb.fitnesstracker.user.internal;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import com.capgemini.wsb.fitnesstracker.user.api.UserProvider;
 import com.capgemini.wsb.fitnesstracker.user.api.UserService;
+import com.capgemini.wsb.fitnesstracker.user.api.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+/**
+ * Service implementation for user management operations.
+ */
 @Service
 @RequiredArgsConstructor
-@Slf4j
 class UserServiceImpl implements UserService, UserProvider {
 
     private final UserRepository userRepository;
 
     @Override
     public User createUser(final User user) {
-        log.info("Creating User {}", user);
-        if (user.getId() != null) {
-            throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
-        }
         return userRepository.save(user);
     }
 
@@ -41,4 +41,26 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.findAll();
     }
 
+    @Override
+    public User updateUser(Long id, User userDetails) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        user.updateFrom(userDetails); // Assuming User class has an `updateFrom` method
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public List<User> searchUsersByEmail(String email) {
+        return userRepository.findByEmailContainingIgnoreCase(email);
+    }
+
+    public List<User> searchUsersByAgeGreaterThan(int age) {
+        LocalDate date = LocalDate.now().minusYears(age);
+        return userRepository.findAll().stream()
+                .filter(user -> user.getBirthdate().isBefore(date))
+                .collect(Collectors.toList());
+    }
 }
