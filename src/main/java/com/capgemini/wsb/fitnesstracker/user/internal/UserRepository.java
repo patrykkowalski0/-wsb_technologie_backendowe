@@ -11,7 +11,7 @@ import java.util.Optional;
  * Repository interface for {@link User} entities, extending {@link JpaRepository}.
  */
 @Repository
-interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Searches for a user by exact email match.

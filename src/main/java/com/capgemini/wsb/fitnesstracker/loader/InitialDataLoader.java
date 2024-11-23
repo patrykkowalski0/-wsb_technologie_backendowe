@@ -143,6 +143,12 @@ class InitialDataLoader {
                                                ActivityType.RUNNING,
                                                11.8,
                                                8.5);
+            Training training11 = new Training(users.get(9),
+                    sdf.parse("2024-10-10 14:00:00"),
+                    sdf.parse("2024-10-10 15:15:00"),
+                    ActivityType.RUNNING,
+                    11.8,
+                    8.5);
 
             trainingData.add(training1);
             trainingData.add(training2);
@@ -154,6 +160,7 @@ class InitialDataLoader {
             trainingData.add(training8);
             trainingData.add(training9);
             trainingData.add(training10);
+            trainingData.add(training11);
 
             trainingData.forEach(training -> trainingRepository.save(training));
         } catch (ParseException e) {

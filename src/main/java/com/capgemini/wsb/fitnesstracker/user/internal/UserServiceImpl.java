@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-class UserServiceImpl implements UserService, UserProvider {
+public class UserServiceImpl implements UserService, UserProvider {
 
     private final UserRepository userRepository;
 

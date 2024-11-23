@@ -9,3 +9,14 @@ spring:
       enabled: true
   profiles:
     active: loadInitialData
+  mail:
+    host: 'sandbox.smtp.mailtrap.io'
+    port: 587
+    username: '80ba0fc2e656c8'
+    password: '6ab7c47c982f6b'
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
