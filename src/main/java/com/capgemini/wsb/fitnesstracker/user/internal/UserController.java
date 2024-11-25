@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
@@ -16,12 +17,21 @@ class UserController {
 
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
+    private final UserSimpleMapper userSimpleMapper;
 
     @GetMapping
     public List<UserDto> getAllUsers() {
         return userService.findAllUsers()
                 .stream()
                 .map(userMapper::toDto)
+                .toList();
+    }
+
+    @GetMapping("/simple")
+    public List<UserSimpleDto> getAllUsersSimple() {
+        return userService.findAllUsers()
+                .stream()
+                .map(userSimpleMapper::toSimpleDto)
                 .toList();
     }
 
